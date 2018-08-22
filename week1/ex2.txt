@@ -1,0 +1,18 @@
+    1  ls
+    2  cd home
+    3  ls
+    4  mkdir harrm
+    5  ls
+    6  cd harrm
+    7  mkdir week1
+    8  cd week1
+    9  ls /usr/bin | grep 'gcc'
+   10  man sort
+   11  sort -h
+   12  sort --help
+   13  ls /usr/bin | sort -r | grep 'gcc'
+   14  ls /usr/bin | sort -r | grep 'gcc' > ex1.txt
+   15  ls
+   16  cat ex1.txt 
+   17  history
+   18  history > ex2.txt
