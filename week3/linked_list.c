@@ -1,115 +1,80 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct linked_list {
+struct List 
+{
 
-	int value;
-	struct linked_list* next;
-	struct linked_list* previous;
+	int data;
+	struct List* next;
+	struct List* prev;
 
-} linked_list;
+};
 
 
 
-linked_list* create_list(int value) {
+void insert_node(int data, struct List* l, int i) 
+{
+	if(i == 0 || l == NULL)
+		return;
 
-	linked_list* new_node = malloc(sizeof(linked_list));
-	new_node->next = NULL;
-	new_node->previous = NULL;
-	new_node->value = value;
-	return new_node;
+	struct List* c = l;
+	while(--i && c != NULL) 
+		c = c->next;	
+
+	struct List* c1 = malloc(sizeof(struct List));
+	c1->data = data;
+	c1->next = c->next;
+	c1->prev = c;
+
+	if(c->next != NULL)
+		c->next->prev = c1;
+
+
+	c->next = c1;
 }
 
 
+void delete_node(struct List* root, size_t i) {
+	struct List* c = root;
+	while(i-- && c != NULL)
+		c = c->next;	
 
-linked_list* insert_node(int value, linked_list* root, size_t i) {
-	if(i == 0 || root == NULL) {
-		return NULL;
-	}
-
-	linked_list* current = root;
-	while(--i && current != NULL) {
-		current = current->next;	
-	}
-	if(current == NULL) {
-		return NULL;
-	}
-
-	linked_list* new_node = create_list(value);
-	new_node->next = current->next;
-	new_node->previous = current;
-
-	if(current->next != NULL) {
-		current->next->previous = new_node;
-	}
-
-	current->next = new_node;
-
-	return new_node;
-}
-
-
-
-void delete_node(linked_list** root, size_t i) {
-	linked_list* current = *root;
-	while(i-- && current != NULL) {
-		current = current->next;	
-	}
-	if(current == NULL) {
+	if(c == NULL) 
 		return;
-	}
-	if(current == *root) {
-		*root = NULL;
-		return;
-	}
 	
-	if(current->previous != NULL) {
-		current->previous->next = current->next;
-	}
-	if(current->next != NULL) {
-		current->next->previous = current->previous;
-	}
-	current->next = NULL;
-	current->previous = NULL;
-	free(current);
+	if(c->prev != NULL) 
+		c->prev->next = c->next;
+	
+	if(c->next != NULL) 	
+		c->next->prev = c->prev;
 }
 
-
-
-void print_list(const linked_list* root) {
-	if(root == NULL) {
+void print_list(struct List* root) 
+{
+	if(root == NULL) 
+	{
 		printf("EMPTY\n");
 		return;
 	}
-	const linked_list* current = root;
-	printf("{");
-	while(current != NULL) {
-		printf("%d ", current->value);
-		current = current->next;
+	struct List* c = root;
+	while(c != NULL) 
+	{
+		printf("%d ", c->data);
+		c = c->next;
 	}
-	printf("}\n");
+	printf("\n");
 }
 
 
 
-int main() {
+int main() 
+{
 
-	linked_list* l = create_list(5);
-
+	struct List* l = malloc(sizeof(struct List));
 	print_list(l);
-
 	insert_node(15, l, 1);
-	insert_node(55, l, 2);
-
 	print_list(l);
-
-	delete_node(&l, 1);
-
-	print_list(l);
-
-	delete_node(&l, 1);
-	delete_node(&l, 0);
-
+	delete_node(l, 1);
 	print_list(l);
 
 	return 0;
