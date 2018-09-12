@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 
         char program_name[256] = "";
         sscanf(buf, "%s", program_name);
-        if(!isalnum(program_name[0])) {
+        if(strcmp(program_name, "exit") == 0) {
             continue;
         }
 
@@ -72,17 +72,25 @@ int main(int argc, char** argv) {
 
         if(fork() == 0) {
             close(my_pipe[0]);
-            printf("TEST");
+            dup2(my_pipe[1], 1);
+            dup2(my_pipe[1], 2);
+            printf("args:");
+            for(int i = 0; args[i] != NULL; i++) {
+                printf("%s\n", args[i]);
+            }
             if(execve(program_name, args, __environ) == -1) {
                 printf("\nEXECVE failed: %s\n", strerror(errno));
                 return -1;
             }
         } else {
             close(my_pipe[1]);
-            dup2(my_pipe[0], 0);
             char abc[256];
-            scanf("%s", abc);
-            printf("OUTPUT: '%s'\n", abc);
+            wait(NULL);
+            ssize_t rn = 0;
+            while((rn = read(my_pipe[0], abc, 256)) > 0) {
+                abc[rn] = '\0';
+                printf("OUTPUT: '%s'\n", abc);
+            }
         }
     }
 
