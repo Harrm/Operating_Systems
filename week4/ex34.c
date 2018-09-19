@@ -74,23 +74,22 @@ int main(int argc, char** argv) {
             close(my_pipe[0]);
             dup2(my_pipe[1], 1);
             dup2(my_pipe[1], 2);
-            printf("args:");
-            for(int i = 0; args[i] != NULL; i++) {
-                printf("%s\n", args[i]);
-            }
             if(execve(program_name, args, __environ) == -1) {
                 printf("\nEXECVE failed: %s\n", strerror(errno));
                 return -1;
             }
         } else {
             close(my_pipe[1]);
+            dup2(my_pipe[0], 1);
+            //wait(NULL);
+            /*
             char abc[256];
             wait(NULL);
             ssize_t rn = 0;
             while((rn = read(my_pipe[0], abc, 256)) > 0) {
                 abc[rn] = '\0';
-                printf("OUTPUT: '%s'\n", abc);
-            }
+                printf("%s\n", abc);
+            }*/
         }
     }
 
