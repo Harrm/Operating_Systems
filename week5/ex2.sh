@@ -2,12 +2,16 @@
 
 lock() {
     ln 'file' 'file.lock'
-    return $?
 }
 
 wait() {
     lock
     while [[ $? != 0 ]]; do
+        current=$(date +%s)
+        if [[ $((current - start)) > 5 ]]; then
+            echo 'Failed'
+            exit 1
+        fi
         lock
     done
 }
@@ -20,8 +24,14 @@ if [ -e 'file.lock' ]; then
     rm 'file.lock' 2> /dev/null
 fi
 
-#critical region, as both scripts may try to create the file
 touch 'file'
+
+wait
+lines_count=$(wc -l < 'file')
+if [[ $lines_count == 0 ]]; then
+    echo '0' >> 'file'
+fi
+unlock
 
 for i in {1..10}; do
     # critical region, as scripts may read the last number simultaneously and thus write the same number in the next line
