@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
 
     assert(argc == 2);
 
-    unsigned  long n = strtoul(argv[1], &argv[1] + strlen(argv[1]), 10);
+    unsigned long n = strtoul(argv[1], &argv[1] + strlen(argv[1]), 10);
 
     for(unsigned long i = 0; i < n; i++) {
         fork();
