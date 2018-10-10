@@ -18,7 +18,6 @@ void* crealloc(void* ptr, size_t new_elem_num, size_t elem_size) {
 
 
 int main() {
-
     int* a = calloc(10, sizeof(int));
     for(int i = 0; i < 10; i++) {
         a[i] = i;

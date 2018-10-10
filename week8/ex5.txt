@@ -1,0 +1,7 @@
+Physical address is the address of a memory cell in primary memory.
+Like an offset from the very beginning of physical memory to this cell.
+Data can be obtained from RAM by this addresses.
+
+Virtual address is an abstraction of an address. There is abstract, potentially infinite virtual memory for
+a user, because the user doesn't want to be bothered my hardware limitations. Nevertheless, as the actual data is
+stored in the existing primary memory, used virtual addresses should be mapped onto physical ones.

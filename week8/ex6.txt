@@ -1,0 +1,4 @@
+With 16-bit virtual addresses we can have 2**16 = 65536 virtual memory cells.
+Considering a page size of 8 KB (1024 * 8 bytes = 8192 bytes), the maximum number of pages is 8
+As we may have to need to map each page onto primary memory, we store an entry for each page frame,
+which makes 8 entries.
