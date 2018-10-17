@@ -1,0 +1,3 @@
+Referencing 10 frames in order 1..10 10..1 will likely yield less faults than in order 1..10 1..10 as in the first case
+we re-use recent pages (and thus don't cause thrashing), whereas in the second case we have already
+evicted old pages and need to bring them to memory again (causing faults).
