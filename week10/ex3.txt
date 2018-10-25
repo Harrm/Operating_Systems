@@ -1,0 +1,11 @@
+660 means:
+ - owner can read and write
+ - group of owner can read and write
+ - no access to others
+
+775 means:
+ - owner can read'n'write'n'execute
+ - the same for their group
+ - others cannot write, but read and execute
+
+777 means full access for everyone
