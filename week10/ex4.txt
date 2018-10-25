@@ -1,5 +1,2 @@
 
-file2: 
-file1: link1
-..: 
-.: 
+Same inum: file1 link1 

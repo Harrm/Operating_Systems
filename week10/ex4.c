@@ -8,11 +8,6 @@
 
 typedef struct dirent entry;
 
-int filter(const entry* d) {
-    return 1;
-}
-
-
 int compare(const entry** d1, const entry** d2) {
     return (*d1)->d_ino < (*d2)->d_ino;
 }
@@ -31,26 +26,21 @@ int main() {
 
     __ino_t last_inode = 0;
     while (num--) {
+
+        struct stat s;
+        char* fname = malloc(sizeof(char) * (strlen(DIR_NAME) + strlen(name_list[num]->d_name)));
+        sprintf(fname, DIR_NAME"/%s", name_list[num]->d_name);
+        if(stat(fname, &s) == -1)
+            perror("Error during stat!");
+
+        if(S_ISDIR(s.st_mode) || s.st_nlink < 2) continue;
+
         if(last_inode != name_list[num]->d_ino) {
             last_inode = name_list[num]->d_ino;
-            printf("\n%s: ", name_list[num]->d_name);
-
-        } else {
-            printf("%s", name_list[num]->d_name);
+            printf("\nSame inum: ");
         }
+        printf("%s ", name_list[num]->d_name);
     }
-/*
-    struct dirent* de;
-    while((de = readdir(d)) != NULL) {
-        struct stat s;
-        char* fname = malloc(sizeof(char) * strlen(DIR_NAME));
-        sprintf(fname, DIR_NAME"/%s", de->d_name);
-        if(stat(fname, &s) != -1)
-            printf("%s %lu\n", de->d_name, s.st_nlink);
-        else
-            perror("Error! ");
-    }
-*/
 
     return 0;
 }
