@@ -1,0 +1,28 @@
+time ./week12 week12 copy
+
+DEFAULT BUFFER SIZE:
+
+real    0m0,002s
+user    0m0,002s
+sys     0m0,000s
+
+BUFFER OF 8 bytes:
+real    0m0,003s
+user    0m0,002s
+sys     0m0,000s
+
+Buffer is too small so a lot of read calls are needed which slows down the program
+
+BUFFER OF 65536 bytes:
+real    0m0,003s
+user    0m0,002s
+sys     0m0,000s
+
+Buffer is too large, handling it requires more time than it wins
+
+DEFAULT BUFFER WITH O_SYNC:
+real    0m0,564s
+user    0m0,005s
+sys     0m0,000s
+
+Synchronization makes program very slow as every call becomes blocking in a way
