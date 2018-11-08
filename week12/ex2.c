@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
     for (int i = 1; i < argc; i++) {
         int f = -1;
         if (argv[i][0] != '-') {
-            f = open(argv[i], O_RDWR | O_CREAT, S_IRWXU);
+            f = open(argv[i], O_RDWR | O_CREAT | O_TRUNC, S_IRWXU);
 
         } else if (argv[i][1] == 'a') {
             i++;
